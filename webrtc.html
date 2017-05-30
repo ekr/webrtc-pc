@@ -29,13 +29,13 @@
   </section>
   <section class="informative" id="intro">
     <h2>Introduction</h2>
-    <p>There are a number of facets to peer-to-peer communications and 
+    <p>There are a number of facets to peer-to-peer communications and
     video-conferencing in HTML covered by this specification:</p>
     <ul>
       <li>Connecting to remote peers using NAT-traversal technologies such as
       ICE, STUN, and TURN.</li>
-      <li>Sending the locally-produced tracks to remote peers and receiving
-      tracks from remote peers.</li>
+      <li>Sending locally-produced media to remote peers and receiving
+      media from remote peers.</li>
       <li>Sending arbitrary data directly to remote peers.</li>
     </ul>
     <p>This document defines the APIs used for these features. This
@@ -98,10 +98,10 @@
       <p>An <code><a>RTCPeerConnection</a></code> instance allows an
       application to establish peer-to-peer communications with another
       <code><a>RTCPeerConnection</a></code> instance in another browser, or to
-      another endpoint implementing the required protocols. Communications are coordinated by the 
+      another endpoint implementing the required protocols. Communications are coordinated by the
       exchange of control messages (called a signaling protocol) over a
       signaling channel which is provided by unspecified means, but generally
-      by a script in the page via the server, e.g. using
+      by a script in the page via the server, e.g., using
       <code>XMLHttpRequest</code> [[XMLHttpRequest]] or Web Sockets
       [[WEBSOCKETS-API]].</p>
     </section>
@@ -1118,8 +1118,8 @@
                     </ul>
                   </li>
                   <li>
-                    <p>Otherwise, if <var>description</var> is set as a remote
-                    description, then run one of the following steps:</p>
+                    <p>Otherwise (if <var>description</var> is set as a remote
+                    description), then run one of the following steps:</p>
                     <ul>
                       <!-- D) transition stable to haveRemoteOffer -->
                       <li>
@@ -2126,7 +2126,7 @@ interface RTCPeerConnection : EventTarget  {
                 and verify the identity of the peer.</p>
                 <p>If an <code>a=identity</code> attribute is present in the
                 session description, the browser <a href=
-                "#sec.identity-verify-assertion">validates the identity
+                "#sec.identity-verify-assertion"> MUST validate the identity
                 assertion.</a>.</p>
                 <p>If the "peerIdentity" configuration is applied to the
                 <code><a>RTCPeerConnection</a></code>, this establishes a
@@ -4143,7 +4143,7 @@ interface RTCIceCandidate {
         <code><a>RTCIceCandidate</a></code> is of type <code>srflx</code> or
         type <code>relay</code>, the <code>url</code> property of the event
         MUST be set to the URL of the ICE server from which the candidate was
-        obtained.</p>
+        obtained. Otherwise, the <code>url</code> property MUST be null.</p>
         <div>
           <pre class="idl">
           [ Constructor (DOMString type, optional RTCPeerConnectionIceEventInit eventInitDict)]
@@ -5005,7 +5005,7 @@ interface RTCPeerConnectionIceErrorEvent : Event {
                   CORS cross-origin</a>. These tracks can be supplied to the
                   <code>addTrack</code> method, and have an
                   <code><a>RTCRtpSender</a></code> created for them, but
-                  content MUST NOT be transmitted, unless they are also marked
+                  content MUST NOT be transmitted, unless the tracks are also marked
                   with <code>peerIdentity</code> and they meet the requirements
                   for sending (see <a href="#isolated-pc">isolated streams and
                   <code>RTCPeerConnection</code></a>).</p>
@@ -5215,7 +5215,7 @@ interface RTCPeerConnectionIceErrorEvent : Event {
                 <li>
                   <p>Verify that each <code><a data-link-for="RTCRtpEncodingParameters">rid</a></code>
                   value in <var>sendEncodings</var> is composed only of
-                  case-sensitive alphanumeric characters (a-z, A-Z, 0-9) up to
+                    case-sensitive alphanumeric characters (a-z, A-Z, 0-9) up to
                   a maximum of 16 characters. If one of the RIDs does not meet
                   these requirements, <a>throw</a> a <code>TypeError</code>.</p>
                 </li>
@@ -6410,7 +6410,7 @@ sender.setParameters(params)
             <dt><dfn><code>clockRate</code></dfn> of type <span class=
             "idlMemberType"><a>unsigned long</a></span></dt>
             <dd>
-              <p>The codec clock rate expressed in Hertz. <a>Read-only
+              <p>The codec clock rate expressed in hertz. <a>Read-only
               parameter</a>.</p>
             </dd>
             <dt><dfn><code>channels</code></dfn> of type <span class=
@@ -6488,7 +6488,7 @@ sender.setParameters(params)
             <dt><dfn><code>clockRate</code></dfn> of type <span class=
             "idlMemberType"><a>unsigned long</a></span></dt>
             <dd>
-              <p>The codec clock rate expressed in Hertz.</p>
+              <p>The codec clock rate expressed in hertz.</p>
             </dd>
             <dt><dfn><code>channels</code></dfn> of type <span class=
             "idlMemberType"><a>unsigned short</a></span></dt>
@@ -9983,7 +9983,7 @@ function processStats() {
         <p>An IdP is used to generate an identity assertion as follows:</p>
         <ol>
           <li>If the <code>setIdentityProvider()</code> method has been called,
-          the IdP provided shall be used.</li>
+          the IdP provided SHALL be used.</li>
           <li>If the <code>setIdentityProvider()</code> method has not been
           called, then the user agent MAY use an IdP configured into the
           browser.</li>
@@ -10322,7 +10322,7 @@ interface RTCIdentityProviderRegistrar {
           <p>The <code>RTCPeerConnection</code> generates the
           <var>contents</var> parameter to this method as described in
           [[!RTCWEB-SECURITY-ARCH]]. The value of <var>contents</var> includes
-          the fingerprint of the certificate that was selected or generated
+          the fingerprint(s) of the certificate(s) that were selected or generated
           during the construction of the <code>RTCPeerConnection</code>. The
           <var>origin</var> parameter contains the origin of the script that
           calls the <code>RTCPeerConnection</code> method that triggers this
@@ -10496,7 +10496,7 @@ interface RTCIdentityProviderRegistrar {
       identity</a> for the <code>RTCPeerConnection</code>, the promise returned
       by <code>setRemoteDescription</code> MUST be rejected with the same
       <code>DOMException</code>.</p>
-      <p>If identity validation fails and there is no a <a>target peer
+      <p>If identity validation fails and there is not a <a>target peer
       identity</a>, the value of the <code><a data-for=
       "RTCPeerConnection">peerIdentity</a></code> MUST be set to a new,
       unresolved promise instance. This permits the use of renegotiation (or a
@@ -10531,9 +10531,7 @@ interface RTCIdentityProviderRegistrar {
         <li><p>If the IdP loads fails due to the TLS certificate used for the
         HTTPS connection not being trusted, it fails with an
         <code>RTCError</code> with <code>errorDetail</code> set to
-       "idp-tls-failure". This typically happens when the IdP uses
-        certificate pinning and an intermediary such as an enterprise
-        firewall has intercepted the TLS connection.</p></li>
+       "idp-tls-failure".</p></li>
         <li><p>If the script loaded from the identity provider is
         not valid JavaScript or does not implement the correct interfaces,
         it causes an IdP failure with an <code>RTCError</code> with
@@ -12487,7 +12485,7 @@ interface RTCErrorEvent : Event {
       modification by untrusted participants.</p>
       <p>Mitigations include:</p>
       <ul>
-        <li>An UA will always request permission from the correspondent UA to
+        <li>An UA will always request permission from the correspondent endpoint to
         communicate using ICE. This ensures that the UA can only send to
         partners who you have shared credentials with.</li>
         <li>An UA will always request ongoing permission to continue sending
@@ -12495,7 +12493,7 @@ interface RTCErrorEvent : Event {
         consent to receive.</li>
         <li>An UA will always encrypt data, with strong per-session keying
         (DTLS-SRTP).</li>
-        <li>An UA wil always use congestion control. This ensures that WebRTC
+        <li>An UA will always use congestion control. This ensures that WebRTC
         cannot be used to flood the network.</li>
       </ul>
       <p>These measures are specified in the relevant IETF documents.</p>
@@ -12528,9 +12526,9 @@ interface RTCErrorEvent : Event {
       time and origins information which increases the fingerprinting surface
       of a given browser.</p>
       <p>When establishing DTLS connections, the WebRTC API can generate
-      certificates that can be persisted by the application (e.g. in
-      IndexedDB). These certificates are not shared across origins, and get
-      cleared when persistent storage is cleared for the origin.</p>
+      certificates that can be persisted by the application (e.g., in
+      IndexedDB). These certificates have the same persistence properties as other
+      data stored by the application.</p>
     </section>
   </section><!--section>
     <h2 id="sec-iana">IANA Registrations</h2>
